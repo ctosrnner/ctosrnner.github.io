@@ -18,7 +18,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="wrapper h-screen flex flex-col justify-center items-center">
+    <div class="wrapper h-screen flex justify-center items-center">
         <div id="render_map" class="w-full h-full bg-gray-100"></div>
     </div>
 
@@ -35,9 +35,7 @@
             zoomControl: false,
         }).setView(DEFAULT_COORDS, 8).setMaxBounds(BOUNDS)
 
-        L.control.zoom({ position: 'bottomright' }).addTo(MAP)
         L.control.locate({
-            position: 'bottomright',
             flyTo: true
         }).addTo(MAP);
 
