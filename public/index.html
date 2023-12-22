@@ -19,65 +19,12 @@
     <link rel="stylesheet" href="./css/main.css">
     <title>Document</title>
 </head>
-<body>
+<body class="bg-black">
     <div class="wrapper h-screen flex justify-center items-center select-none">
-        <div id="render_map" class="w-full h-full bg-gray-100"></div>
+        <div id="render_map" class="w-full h-full bg-black">
+        </div>
     </div>
-
-    <script>
-        const DEFAULT_COORDS = [-7.33026, 110.49953]
-        const BOUNDS = [
-            [-10.0, 105.0],
-            [-5.0, 115.0],
-        ]
-
-        const MAP = L.map('render_map', {
-            minZoom: 8,
-            maxZoom: 18,
-        }).setView(DEFAULT_COORDS, 8).setMaxBounds(BOUNDS)
-
-        L.control.locate({
-            flyTo: true,
-        }).addTo(MAP)
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '',
-        }).addTo(MAP)
-
-        let tempCoords = [-7.32481, 110.50475]
-
-        let boundingExpand = 0.00050
-
-        function getBounding (lat, lon) {
-            return [
-                [lat - boundingExpand, lon + boundingExpand],
-                [lat + boundingExpand, lon + boundingExpand],
-                [lat + boundingExpand, lon - boundingExpand],
-                [lat - boundingExpand, lon - boundingExpand],
-            ]
-        }
-
-        let normalMarker = L.icon({
-            iconUrl: './img/icon/dmarker_normal.png',
-            iconSize: [35, 35], // size of the icon
-            iconAnchor: [17.5, 17.5], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -17.5], // point from which the popup should open relative to the iconAnchor
-        })
-
-        L.marker(tempCoords, { icon: normalMarker }).addTo(MAP).bindPopup(
-          `<div class="font-bold">Scrap Information</div>` +
-          `<div class="font-normal">Location: Jalan Diponegoro, Pancuran, Salatiga, Central Java, Java, 50742, Indonesia</div>`,
-        )
-
-        // L.marker(tempCoords).addTo(MAP)
-        // L.polygon(getBounding(tempCoords[0], tempCoords[1])).addTo(MAP);
-        L.circle(tempCoords, {
-            color: '#707070',
-            fillColor: '#707070',
-            fillOpacity: 0.55,
-            radius: (boundingExpand * 112500),
-        }).addTo(MAP)
-    </script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
 

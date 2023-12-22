@@ -1,12 +1,127 @@
-let expand = 0.00400
+const JSON_URL = './../public/resource/source.json'
 
-function createBounding (lat, lon) {
+/*
+ * Get the coordinate bounding box
+ */
+function getCoordsBounding (lat, lon, boundingExpand) {
     return [
-        [lat - expand, lon + expand],
-        [lat + expand, lon + expand],
-        [lat + expand, lon - expand],
-        [lat - expand, lon - expand],
+        [lat - boundingExpand, lon + boundingExpand],
+        [lat + boundingExpand, lon + boundingExpand],
+        [lat + boundingExpand, lon - boundingExpand],
+        [lat - boundingExpand, lon - boundingExpand],
     ]
 }
 
-console.log(createBounding(-7.30052, 110.45507))
+fetch(JSON_URL).then(response => {
+    if (!response.ok) {
+        console.log('error')
+    }
+    return response.text()
+}).then(jsonData => {
+    /*
+     * Application Cores
+     */
+    const JSON_OBJECT = JSON.parse(jsonData)
+
+    const { config } = JSON_OBJECT
+    const { markers } = JSON_OBJECT
+
+    const { defaultCoords } = config
+    const { defaultZoom } = config
+
+    const WORLD_MAP = L.map('render_map', { minZoom: 8, maxZoom: 18 }).
+      setView(defaultCoords, defaultZoom).setMaxBounds(config.maxBounds)
+
+    /*
+    * Rendering Map Image/Tiles
+    */
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '',
+    }).addTo(WORLD_MAP)
+
+    /*
+    * Adding show location Control
+    */
+    let locateControl = L.control.locate(
+      {
+          flyTo: true,
+          strings: { title: 'Center Your Position' },
+          clickBehavior: {
+              inView: 'setView',
+              outOfView: 'setView',
+              inViewNotFollowing: 'setView',
+          },
+      }).
+      addTo(WORLD_MAP)
+
+    locateControl.start()
+
+    /*
+    * Registering custom Icon
+    */
+    let mainMarker = L.Icon.extend({
+        options: {
+            popupAnchor: [0, -17.5],
+            iconSize: [35, 35],
+            iconAnchor: [17.5, 17.5],
+        },
+    })
+
+    let warnMarker = new mainMarker(
+      { iconUrl: './../public/img/icon/dmarker_warn.png' })
+    let normalMarker = new mainMarker(
+      { iconUrl: './../public/img/icon/dmarker_normal.png' })
+
+    WORLD_MAP.on('locationfound', (e) => {
+        let userLocation = [e.latlng.lat, e.latlng.lng]
+        console.log(userLocation)
+
+        for (const marker in markers) {
+            if (markers[marker].active) {
+
+                const markerStatus = markers[marker]['status']
+                const markerPayout = markers[marker]['payout']
+
+                const userDistance = (WORLD_MAP.distance(userLocation,
+                  markers[marker].coords) / 1000).toFixed(2)
+
+                /*
+                 * Pop-up Message builder
+                 */
+                const popupMessage = `<span class="popup-title">Scrap Information (#${marker})</span>` +
+                  `<span>Distance: ${userDistance}km</span>` +
+                  `<span class="popup-status ${markerStatus
+                    ? 'avn'
+                    : 'uvn'}">${markerStatus
+                    ? 'Available'
+                    : 'Unavailable'} <span class="popup-payout ${markerStatus ? '' : 'unv'}">IDR ${markerPayout}</span></span>`
+
+                L.marker(markers[marker].coords,
+                  { icon: markerStatus ? normalMarker : warnMarker }).
+                  addTo(WORLD_MAP).
+                  bindPopup(popupMessage)
+
+                let { boundingExpand } = config
+
+                // L.polygon(getCoordsBounding(markers[marker].coords[0], markers[marker].coords[1], boundingExpand)).addTo(WORLD_MAP)
+                L.circle(markers[marker].coords, {
+                    // color: '#707070',
+                    // fillColor: '#707070',
+                    // fillOpacity: 0.55,
+                    radius: (boundingExpand * 112500),
+                }).addTo(WORLD_MAP)
+            }
+
+            console.log(markers[marker].coords)
+        }
+    })
+
+    // L.marker(defaultCoords, { icon: normalMarker }).addTo(WORLD_MAP)
+
+    WORLD_MAP.on('locationerror', (e) => {
+        console.log('Error saat mendapatkan lokasi:', e.message)
+    })
+
+}).catch(error => {
+    console.error('Error loading JSON:', error)
+})

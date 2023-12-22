@@ -1,0 +1,41 @@
+{
+    "config": {
+        "tileLayer": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "defaultCoords": [
+            -7.33026,
+            110.49953
+        ],
+        "maxBounds": [
+            [
+                -10,
+                105
+            ],
+            [
+                -5,
+                115
+            ]
+        ],
+        "boundingExpand": 0.0005,
+        "defaultZoom": 10
+    },
+    "markers": {
+        "1AG": {
+            "coords": [
+                -7.32481,
+                110.50475
+            ],
+            "active": true,
+            "status": true,
+            "payout": "25,000"
+        },
+        "1XB": {
+            "coords": [
+                -7.29487,
+                110.45144
+            ],
+            "active": true,
+            "status": false,
+            "payout": "25,000"
+        }
+    }
+}

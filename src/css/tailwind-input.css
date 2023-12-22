@@ -24,3 +24,30 @@
 .leaflet-popup-content {
     @apply flex flex-col gap-0.5;
 }
+
+.leaflet-popup-content .popup-title {
+    @apply font-bold;
+}
+
+.leaflet-popup-content .popup-status {
+    @apply flex justify-between items-center gap-1.5 mt-2;
+}
+
+
+.leaflet-popup-content .popup-status.avn::before {
+    content: "";
+    @apply w-1.5 h-1.5 bg-green-500 rounded-full;
+}
+
+.leaflet-popup-content .popup-status.uvn::before {
+    content: "";
+    @apply w-1.5 h-1.5 bg-red-500 rounded-full;
+}
+
+.leaflet-popup-content .popup-status .popup-payout {
+    @apply bg-green-600 w-fit px-[5px] py-[1px] rounded-sm font-semibold text-white ml-2;
+}
+
+.leaflet-popup-content .popup-status .popup-payout.unv {
+    @apply bg-red-600;
+}
