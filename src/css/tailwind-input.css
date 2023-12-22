@@ -39,7 +39,7 @@
     @apply w-1.5 h-1.5 bg-green-500 rounded-full;
 }
 
-.leaflet-popup-content .popup-status.uvn::before {
+.leaflet-popup-content .popup-status.unv::before {
     content: "";
     @apply w-1.5 h-1.5 bg-red-500 rounded-full;
 }
@@ -50,4 +50,16 @@
 
 .leaflet-popup-content .popup-status .popup-payout.unv {
     @apply bg-red-600;
+}
+
+.leaflet-popup-content div {
+    @apply mt-3;
+}
+
+.leaflet-popup-content div button.popup-button-fetch {
+    @apply bg-black text-white py-1.5 w-full rounded-md  hover:bg-gray-700;
+}
+
+.leaflet-popup-content div button.popup-button-fetch.unv {
+    @apply bg-gray-400 cursor-not-allowed;
 }

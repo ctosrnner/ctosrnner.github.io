@@ -36,6 +36,15 @@
             "active": true,
             "status": false,
             "payout": "25,000"
+        },
+        "1DT": {
+            "coords": [
+                -7.35013,
+                110.50760
+            ],
+            "active": true,
+            "status": true,
+            "payout": "25,000"
         }
     }
 }

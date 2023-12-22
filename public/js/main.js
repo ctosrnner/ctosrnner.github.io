@@ -12,6 +12,21 @@ function getCoordsBounding (lat, lon, boundingExpand) {
     ]
 }
 
+function isInsideBoundingBox (point, boundingBox) {
+    const [x, y] = point
+    const [x1, y1] = boundingBox[0]
+    const [x2, y2] = boundingBox[1]
+    const [x3, y3] = boundingBox[2]
+    const [x4, y4] = boundingBox[3]
+
+    const isInsideX = x >= Math.min(x1, x2, x3, x4) && x <=
+      Math.max(x1, x2, x3, x4)
+    const isInsideY = y >= Math.min(y1, y2, y3, y4) && y <=
+      Math.max(y1, y2, y3, y4)
+
+    return isInsideX && isInsideY
+}
+
 fetch(JSON_URL).then(response => {
     if (!response.ok) {
         console.log('error')
@@ -74,7 +89,6 @@ fetch(JSON_URL).then(response => {
 
     WORLD_MAP.on('locationfound', (e) => {
         let userLocation = [e.latlng.lat, e.latlng.lng]
-        console.log(userLocation)
 
         for (const marker in markers) {
             if (markers[marker].active) {
@@ -92,9 +106,21 @@ fetch(JSON_URL).then(response => {
                   `<span>Distance: ${userDistance}km</span>` +
                   `<span class="popup-status ${markerStatus
                     ? 'avn'
-                    : 'uvn'}">${markerStatus
+                    : 'unv'}">${markerStatus
                     ? 'Available'
-                    : 'Unavailable'} <span class="popup-payout ${markerStatus ? '' : 'unv'}">IDR ${markerPayout}</span></span>`
+                    : 'Unavailable'} <span class="popup-payout ${markerStatus
+                    ? ''
+                    : 'unv'}">IDR ${markerPayout}</span></span>` +
+                  `<div><button id="${markerStatus
+                    ? 'fetch_enable_btn'
+                    : ''}" type="button" class="popup-button-fetch ${markerStatus
+                    ? ''
+                    : 'unv'}">Fetch</button></div>` +
+                  `<span class="latlng-info hidden">${markers[marker].coords[0]}|${markers[marker].coords[1]}</span>`
+
+                L.polygon(getCoordsBounding(markers[marker].coords[0],
+                  markers[marker].coords[1], config['boundingExpand'])).
+                  addTo(WORLD_MAP)
 
                 L.marker(markers[marker].coords,
                   { icon: markerStatus ? normalMarker : warnMarker }).
@@ -103,7 +129,6 @@ fetch(JSON_URL).then(response => {
 
                 let { boundingExpand } = config
 
-                // L.polygon(getCoordsBounding(markers[marker].coords[0], markers[marker].coords[1], boundingExpand)).addTo(WORLD_MAP)
                 L.circle(markers[marker].coords, {
                     color: markerStatus ? '#3b73cc' : '#db3e3e',
                     fillColor: markerStatus ? '#3b73cc' : '#db3e3e',
@@ -112,8 +137,36 @@ fetch(JSON_URL).then(response => {
                 }).addTo(WORLD_MAP)
             }
 
-            console.log(markers[marker].coords)
         }
+
+        let fetchButton
+        /*
+         * Handling Popup Event
+         */
+        WORLD_MAP.on('popupopen', (e) => {
+            fetchButton = document.querySelector('#fetch_enable_btn')
+            if (fetchButton) {
+                let coords = document.querySelector('.latlng-info').
+                  innerHTML.
+                  split('|')
+
+                coords = [parseFloat(coords[0]), parseFloat(coords[1])]
+
+                fetchButton.addEventListener('click', () => {
+                    let latLng = [userLocation[0], userLocation[1]]
+                    let result = isInsideBoundingBox(latLng,
+                      getCoordsBounding(coords[0], coords[1],
+                        config['boundingExpand']))
+
+                    if (result) {
+                        alert("Success Fetching")
+                    } else {
+                        alert("Failed to fetch...")
+                    }
+                    WORLD_MAP.closePopup()
+                })
+            }
+        })
     })
 
     // L.marker(defaultCoords, { icon: normalMarker }).addTo(WORLD_MAP)
@@ -125,3 +178,5 @@ fetch(JSON_URL).then(response => {
 }).catch(error => {
     console.error('Error loading JSON:', error)
 })
+
+
