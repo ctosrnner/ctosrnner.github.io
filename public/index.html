@@ -8,14 +8,17 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="./css/L.Control.Locate.min.css"/>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="./js/L.Control.Locate.min.js"></script>
 
     <link rel="stylesheet" href="./css/main.css">
     <title>Document</title>
 </head>
 <body>
-    <div class="wrapper h-screen flex justify-center items-center">
+    <div class="wrapper h-screen flex flex-col justify-center items-center">
         <div id="render_map" class="w-full h-full bg-gray-100"></div>
     </div>
 
@@ -28,12 +31,34 @@
 
         const MAP = L.map('render_map', {
             minZoom: 8,
-            maxZoom: 19,
-        }).setView(DEFAULT_COORDS, 14).setMaxBounds(BOUNDS)
+            maxZoom: 18,
+            zoomControl: false,
+        }).setView(DEFAULT_COORDS, 8).setMaxBounds(BOUNDS)
+
+        L.control.zoom({ position: 'bottomright' }).addTo(MAP)
+        L.control.locate({
+            position: 'bottomright',
+            flyTo: true
+        }).addTo(MAP);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '',
         }).addTo(MAP)
+
+        // const successCallback = (position) => {
+        //     const COORDS = [
+        //         position.coords.latitude.toString(),
+        //         position.coords.longitude.toString(),
+        //     ]
+        //
+        //     MAP.setView(COORDS, 16)
+        //     L.marker(COORDS).addTo(MAP)
+        // }
+        // const errorCallback = (error) => {
+        //     alert(error)
+        // }
+        //
+        // navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
 
         // L.polygon([
         //     [-10.0, 105.0],

@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
+
+.leaflet-control {
+    display: none;
+}
+
 @tailwind utilities;
