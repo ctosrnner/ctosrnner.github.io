@@ -105,9 +105,9 @@ fetch(JSON_URL).then(response => {
 
                 // L.polygon(getCoordsBounding(markers[marker].coords[0], markers[marker].coords[1], boundingExpand)).addTo(WORLD_MAP)
                 L.circle(markers[marker].coords, {
-                    // color: '#707070',
-                    // fillColor: '#707070',
-                    // fillOpacity: 0.55,
+                    color: markerStatus ? '#3b73cc' : '#db3e3e',
+                    fillColor: markerStatus ? '#3b73cc' : '#db3e3e',
+                    fillOpacity: 0.35,
                     radius: (boundingExpand * 112500),
                 }).addTo(WORLD_MAP)
             }
