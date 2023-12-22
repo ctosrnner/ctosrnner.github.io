@@ -20,3 +20,7 @@
         @apply flex justify-center items-center;
     }
 }
+
+.leaflet-popup-content {
+    @apply flex flex-col gap-0.5;
+}
