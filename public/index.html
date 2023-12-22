@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <link rel="stylesheet" href="./css/main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper h-screen flex justify-center items-center">
+        <div id="render_map" class="w-full h-full bg-gray-100"></div>
+    </div>
+
+    <script>
+        const DEFAULT_COORDS = [-7.33026, 110.49953]
+        const BOUNDS = [
+            [-10.0, 105.0],
+            [-5.0, 115.0],
+        ]
+
+        const MAP = L.map('render_map', {
+            minZoom: 8,
+            maxZoom: 19,
+        }).setView(DEFAULT_COORDS, 14).setMaxBounds(BOUNDS)
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '',
+        }).addTo(MAP)
+
+        // L.polygon([
+        //     [-10.0, 105.0],
+        //     [-5.0, 115.0],
+        // ]).addTo(MAP)
+
+        // L.marker(DEFAULT_COORDS).addTo(MAP)
+    </script>
+</body>
+</html>
+
