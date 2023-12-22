@@ -153,6 +153,7 @@ fetch(JSON_URL).then(response => {
                 coords = [parseFloat(coords[0]), parseFloat(coords[1])]
 
                 fetchButton.addEventListener('click', () => {
+                    WORLD_MAP.closePopup()
                     let latLng = [userLocation[0], userLocation[1]]
                     let result = isInsideBoundingBox(latLng,
                       getCoordsBounding(coords[0], coords[1],
@@ -163,7 +164,7 @@ fetch(JSON_URL).then(response => {
                     } else {
                         alert("Failed to fetch...")
                     }
-                    WORLD_MAP.closePopup()
+                    // WORLD_MAP.closePopup()
                 })
             }
         })
