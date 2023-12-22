@@ -35,34 +35,12 @@
         }).setView(DEFAULT_COORDS, 8).setMaxBounds(BOUNDS)
 
         L.control.locate({
-            flyTo: true
-        }).addTo(MAP);
+            flyTo: true,
+        }).addTo(MAP)
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '',
         }).addTo(MAP)
-
-        // const successCallback = (position) => {
-        //     const COORDS = [
-        //         position.coords.latitude.toString(),
-        //         position.coords.longitude.toString(),
-        //     ]
-        //
-        //     MAP.setView(COORDS, 16)
-        //     L.marker(COORDS).addTo(MAP)
-        // }
-        // const errorCallback = (error) => {
-        //     alert(error)
-        // }
-        //
-        // navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
-
-        // L.polygon([
-        //     [-10.0, 105.0],
-        //     [-5.0, 115.0],
-        // ]).addTo(MAP)
-
-        // L.marker(DEFAULT_COORDS).addTo(MAP)
     </script>
 </body>
 </html>

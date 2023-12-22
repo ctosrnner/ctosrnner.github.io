@@ -1,8 +1,22 @@
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
 
-.leaflet-control {
-    display: none;
+.leaflet-touch .leaflet-bar a {
+    width: 50px;
+    height: 50px;
+    @apply flex justify-center items-center;
 }
 
-@tailwind utilities;
+.leaflet-bar {
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+@media screen(lg) {
+    .leaflet-touch .leaflet-bar a {
+        width: 40px;
+        height: 40px;
+        @apply flex justify-center items-center;
+    }
+}
