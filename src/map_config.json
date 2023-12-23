@@ -1,5 +1,5 @@
 {
-    "tileLayer": "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
+    "tileLayer": "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png?api_key=fa38b65e-c92c-4b90-9aba-651977dda512",
     "defaultCoords": [
         -7.33255116566325,
         110.50506944731121
