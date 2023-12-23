@@ -143,7 +143,8 @@ fetch(JSON_URL).then(response => {
         /*
          * Handling Popup Event
          */
-        WORLD_MAP.on('popupopen', (e) => {
+        WORLD_MAP.on('popupopen', () => {
+            console.log('popup OPEN')
             setTimeout(function () {
 
                 fetchButton = document.querySelector('#fetch_enable_btn')
@@ -154,8 +155,8 @@ fetch(JSON_URL).then(response => {
 
                     coords = [parseFloat(coords[0]), parseFloat(coords[1])]
 
-                    fetchButton.addEventListener('click', () => {
-
+                    fetchButton.addEventListener('click', (event) => {
+                        event.preventDefault()
                         let latLng = [userLocation[0], userLocation[1]]
                         let result = isInsideBoundingBox(latLng,
                           getCoordsBounding(coords[0], coords[1],
@@ -164,13 +165,13 @@ fetch(JSON_URL).then(response => {
                         if (result) {
                             alert('Success Fetching')
                         } else {
-                            alert('Failed to fetch...')
+                            alert('Failed to- fetch...')
                         }
                         WORLD_MAP.closePopup()
                     })
                 }
 
-            }, 200)
+            }, 100)
         })
     })
 
