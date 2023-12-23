@@ -11,18 +11,31 @@
     <title>Document</title>
 </head>
 <body class="bg-black">
-    <h1 id="status_info" class="text-white text-3xl">awdw</h1>
+    <h1 id="status_info" class="text-white text-3xl"></h1>
+    <script src="./../js/coreUtil.js"></script>
     <script>
         const queryString = window.location.search
         const params = new URLSearchParams(queryString)
 
-        const statusInfo = document.querySelector('#status_info')
-        const statusCode = params.get('st')
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              function (position) {
+                  const markerCoords = [parseFloat(params.get('lat')), parseFloat(params.get('lng'))]
+                  const bounds = parseFloat(params.get('b'))
+                  const coords = [position.coords.latitude, position.coords.longitude]
 
-        if (parseInt(statusCode) === 200) {
-            statusInfo.innerHTML = 'Success fetching the scrap!'
+                  const result = isInsideBoundingBox(coords,
+                    getCoordsBounding(markerCoords[0], markerCoords[1], bounds))
+
+                  const statusInfo = document.querySelector('#status_info')
+                  statusInfo.innerHTML = result.toString()
+              },
+              function (error) {
+                  console.error('Error getting geolocation:', error.message)
+              },
+            )
         } else {
-            statusInfo.innerHTML = 'Failed to fetch'
+            console.error('Geolocation is not supported by this browser.')
         }
     </script>
 </body>
