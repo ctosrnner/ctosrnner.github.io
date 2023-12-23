@@ -144,29 +144,33 @@ fetch(JSON_URL).then(response => {
          * Handling Popup Event
          */
         WORLD_MAP.on('popupopen', (e) => {
-            fetchButton = document.querySelector('#fetch_enable_btn')
-            if (fetchButton) {
-                let coords = document.querySelector('.latlng-info').
-                  innerHTML.
-                  split('|')
+            setTimeout(function () {
 
-                coords = [parseFloat(coords[0]), parseFloat(coords[1])]
+                fetchButton = document.querySelector('#fetch_enable_btn')
+                if (fetchButton) {
+                    let coords = document.querySelector('.latlng-info').
+                      innerHTML.
+                      split('|')
 
-                fetchButton.addEventListener('click', () => {
+                    coords = [parseFloat(coords[0]), parseFloat(coords[1])]
 
-                    let latLng = [userLocation[0], userLocation[1]]
-                    let result = isInsideBoundingBox(latLng,
-                      getCoordsBounding(coords[0], coords[1],
-                        config['boundingExpand']))
+                    fetchButton.addEventListener('click', () => {
 
-                    if (result) {
-                        alert("Success Fetching")
-                    } else {
-                        alert("Failed to fetch...")
-                    }
-                    WORLD_MAP.closePopup()
-                })
-            }
+                        let latLng = [userLocation[0], userLocation[1]]
+                        let result = isInsideBoundingBox(latLng,
+                          getCoordsBounding(coords[0], coords[1],
+                            config['boundingExpand']))
+
+                        if (result) {
+                            alert('Success Fetching')
+                        } else {
+                            alert('Failed to fetch...')
+                        }
+                        WORLD_MAP.closePopup()
+                    })
+                }
+
+            }, 200)
         })
     })
 
