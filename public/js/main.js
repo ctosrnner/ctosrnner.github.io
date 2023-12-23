@@ -113,15 +113,26 @@ fetch(JSON_URL).then(response => {
 
         }
 
-        let fetchButton
+        let lastFetchedAction = 0
+
+        function handleFetchButton (lat, lng) {
+            const currentTime = new Date().getTime()
+            if (currentTime - lastFetchedAction > 1000) {
+
+                window.open(
+                  `pages/fetch.html?lat=${lat}&lng=${lng}&b=${config['boundingExpand']}`,
+                  '_blank')
+
+                lastFetchedAction = currentTime
+            }
+        }
+
         /*
          * Handling Popup Event
          */
         WORLD_MAP.on('popupopen', () => {
-            console.log('popup OPEN')
             setTimeout(function () {
-
-                fetchButton = document.querySelector('#fetch_enable_btn')
+                let fetchButton = document.querySelector('#fetch_enable_btn')
                 if (fetchButton) {
                     let coords = document.querySelector('.latlng-info').
                       innerHTML.
@@ -131,12 +142,13 @@ fetch(JSON_URL).then(response => {
 
                     fetchButton.addEventListener('click', (event) => {
                         event.preventDefault()
-                        window.open(
-                          `pages/fetch.html?lat=${coords[0]}&lng=${coords[1]}&b=${config['boundingExpand']}`,
-                          '_blank')
+
+                        handleFetchButton(coords[0], coords[1])
+                        // window.open(
+                        //   `pages/fetch.html?lat=${coords[0]}&lng=${coords[1]}&b=${config['boundingExpand']}`,
+                        //   '_blank')
                     })
                 }
-
             }, 100)
         })
     })
