@@ -79,7 +79,7 @@ fetch(JSON_URL).then(response => {
             /*
              * Pop-up Message builder
              */
-            const popupMessage = `<span class="popup-title">Scrap Information (#${marker})</span>` +
+            const popupMessage = `<span class="popup-title">Z Scrap Information (#${marker})</span>` +
               `<span>Distance: ${userDistance}km</span>` +
               `<span class="popup-status ${markerStatus
                 ? 'avn'
