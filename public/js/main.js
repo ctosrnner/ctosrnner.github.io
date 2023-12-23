@@ -163,9 +163,9 @@ fetch(JSON_URL).then(response => {
                             config['boundingExpand']))
 
                         if (result) {
-                            alert('Success Fetching')
+                            window.open('pages/fetch.html?st=200', '_blank')
                         } else {
-                            alert('Failed to- fetch...')
+                            window.open('pages/fetch.html?st=201', '_blank')
                         }
                         WORLD_MAP.closePopup()
                     })

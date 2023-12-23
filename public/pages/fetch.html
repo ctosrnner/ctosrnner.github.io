@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="./../css/main.css">
+
+    <title>Document</title>
+</head>
+<body class="bg-black">
+    <h1 id="status_info" class="text-white text-3xl">awdw</h1>
+    <script>
+        const queryString = window.location.search
+        const params = new URLSearchParams(queryString)
+
+        const statusInfo = document.querySelector('#status_info')
+        const statusCode = params.get('st')
+
+        if (parseInt(statusCode) === 200) {
+            statusInfo.innerHTML = 'Success fetching the scrap!'
+        } else {
+            statusInfo.innerHTML = 'Failed to fetch'
+        }
+    </script>
+</body>
+</html>
+
