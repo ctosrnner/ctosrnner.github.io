@@ -1,3 +1,5 @@
+import { sourceHtmlIcon } from './map_icon.js'
+
 let userCoords, userAccuracy, userAccuracyCircleMarker, userCoordsMarker
 
 import 'leaflet.locatecontrol'
@@ -9,11 +11,18 @@ function locationControl(map) {
     }
 
     function getSuccessCallback(position) {
+        console.log(sourceHtmlIcon().userLocation)
         userCoords = [position.coords.latitude, position.coords.longitude]
         userAccuracy = position.coords.accuracy
 
-        userAccuracyCircleMarker = L.circle(userCoords, { radius: userAccuracy })
-        userCoordsMarker = L.marker(userCoords)
+        userAccuracyCircleMarker = L.circle(userCoords, {
+            opacity: userAccuracy < 15 ? 0.0 : 1.0,
+            fillOpacity: userAccuracy < 15 ? 0.0 : 0.25,
+            radius: userAccuracy,
+        })
+        userCoordsMarker = L.marker(userCoords, {
+            icon: L.divIcon(sourceHtmlIcon().userLocation),
+        })
 
         const featureGroup = L.featureGroup([userAccuracyCircleMarker, userCoordsMarker]).addTo(map)
         map.flyToBounds(featureGroup.getBounds())
@@ -29,14 +38,11 @@ function locationControl(map) {
         userAccuracy = position.coords.accuracy
 
         if (userAccuracyCircleMarker || userCoordsMarker) {
-            map.removeLayer(userAccuracyCircleMarker)
-            map.removeLayer(userCoordsMarker)
+            userAccuracyCircleMarker.setLatLng(userCoords).setRadius(userAccuracy)
+            userCoordsMarker.setLatLng(userCoords)
+
+            userAccuracyCircleMarker.setOpacity(userAccuracy < 15 ? 0.0 : 1.0)
         }
-
-        userAccuracyCircleMarker = L.circle(userCoords, { radius: userAccuracy })
-        userCoordsMarker = L.marker(userCoords)
-
-        L.featureGroup([userAccuracyCircleMarker, userCoordsMarker]).addTo(map)
 
         updateLocationInformation(position)
     }
@@ -48,14 +54,12 @@ function updateLocationInformation(position) {
     let iLat = document.querySelector('#l_lat span')
     let iLng = document.querySelector('#l_lng span')
     let iAcc = document.querySelector('#l_acc span')
-    let iHdn = document.querySelector('#l_hdn span')
 
     const info = position.coords
 
     iLat.innerHTML = info['latitude'].toString()
     iLng.innerHTML = info['longitude'].toString()
     iAcc.innerHTML = info['accuracy']
-    iHdn.innerHTML = info['heading'] ? info['heading'] : '-'
 }
 
 export { locationControl }

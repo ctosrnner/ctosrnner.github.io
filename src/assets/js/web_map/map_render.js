@@ -1,10 +1,9 @@
 import mapConfig from '../../../map_config.json'
 
-import L from 'leaflet'
-
 import 'leaflet.tilelayer.colorfilter'
+import 'leaflet.motion/dist/leaflet.motion.min.js'
+
 import { locationControl } from './location_control.js'
-import { map } from './index.js'
 
 function mapInit() {
     const map = L.map('map', { attributionControl: false, maxBoundsViscosity: 0.75 }).
@@ -15,6 +14,22 @@ function mapInit() {
         maxZoom: 18,
         filter: [],
     }).addTo(map)
+
+    let gridLayer = L.gridLayer({
+        tileSize: L.point(100, 100),
+        minZoom: 10,
+        maxZoom: 18,
+    })
+
+    gridLayer.createTile = function (coords) {
+        let tile = L.DomUtil.create('div', 'tile-hoverable')
+
+        tile.style.pointerEvents = 'initial'
+
+        return tile
+    }
+
+    map.addLayer(gridLayer)
 
     locationControl(map)
 

@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .icon {
+        &.userLocation {
+            @apply bg-blue-800/25 w-full h-full flex justify-center items-center rounded-full ;
+
+            div {
+                @apply bg-gray-50 w-1/2 h-1/2 rounded-full drop-shadow-sm z-10 transition-all;
+
+                &::after {
+                    content: '';
+                    animation: user-location-throb 2s ease-in-out infinite;
+                    @apply bg-blue-500 w-full h-full block rounded-full;
+                }
+            }
+        }
+    }
+
+    .tile-hoverable {
+        @apply border-gray-900/15 border-[0.125px];
+    }
+}
+
+@keyframes user-location-throb {
+    0% {
+        transform: scale(0.6, 0.6);
+    }
+
+    50% {
+        transform: scale(0.75, 0.75);
+    }
+
+    100% {
+        transform: scale(0.6, 0.6);
+    }
+}
