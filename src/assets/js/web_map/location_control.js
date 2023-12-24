@@ -37,6 +37,8 @@ function locationControl(map) {
         userCoordsMarker = L.marker(userCoords)
 
         L.featureGroup([userAccuracyCircleMarker, userCoordsMarker]).addTo(map)
+
+        updateLocationInformation(position)
     }
 
     navigator.geolocation.getCurrentPosition(getSuccessCallback, errorCallback, { enableHighAccuracy: true })
