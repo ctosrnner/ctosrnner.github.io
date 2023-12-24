@@ -1,6 +1,10 @@
 import mapConfig from '../../../map_config.json'
 
+import L from 'leaflet'
+
 import 'leaflet.tilelayer.colorfilter'
+import { locationControl } from './location_control.js'
+import { map } from './index.js'
 
 function mapInit() {
     const map = L.map('map', { attributionControl: false, maxBoundsViscosity: 0.75 }).
@@ -10,8 +14,9 @@ function mapInit() {
         minZoom: 8,
         maxZoom: 18,
         filter: [],
-        apiKey: 'fa38b65e-c92c-4b90-9aba-651977dda512',
     }).addTo(map)
+
+    locationControl(map)
 
     return map
 }
