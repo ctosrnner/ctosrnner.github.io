@@ -1,9 +1,7 @@
-import L from 'leaflet'
-
+import { locationControl } from './location_control.js'
 import { mapInit } from './map_render.js'
-import { startNavigator } from './user_navigator.js'
 
 const map = mapInit()
-startNavigator(map)
+locationControl(map)
 
 export { map }

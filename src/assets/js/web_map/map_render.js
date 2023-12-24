@@ -3,10 +3,10 @@ import mapConfig from '../../../map_config.json'
 import 'leaflet.tilelayer.colorfilter'
 
 function mapInit() {
-    const map = L.map('map', { maxBoundsViscosity: 0.75 }).
+    const map = L.map('map', { attributionControl: false, maxBoundsViscosity: 0.75 }).
             setView(mapConfig.defaultCoords, mapConfig.defaultZoom).setMaxBounds(mapConfig.maxBounds)
 
-    L.tileLayer.colorFilter(mapConfig.tileLayer, {
+    L.tileLayer.colorFilter(mapConfig.tileLayer.openStreetMaps, {
         minZoom: 8,
         maxZoom: 18,
         filter: [],
